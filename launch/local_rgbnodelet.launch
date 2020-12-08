@@ -1,0 +1,22 @@
+<launch>
+  <arg name="depth" default="/camera/depth_registered/hw_registered/image_rect_raw"/>
+  <arg name="color" default="/camera/rgb/image_rect_color"/>
+
+  <group ns="camera">
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
+
+  <node pkg="nodelet" type="nodelet" name="nodelet1_local"
+        args="load depth_image_proc/point_cloud_xyzrgb nodelet_manager">
+    <remap from="depth_registered/image_rect" to="$(arg depth)"/>
+    <!-- <remap from="rgb/image_rect_color" to="$(arg color)"/> -->
+    <!-- <remap from="/camera/depth_registered/camera_info" to="depth_registered/camera_info"/> -->
+    <!-- <remap from="/camera/rgb/camera_info" to="rgb/camera_info" /> -->
+    <!-- <remap from="depth_registered/camera_info" to="/camera/depth_registered/camera_info"/> -->
+    <!-- <remap from="rgb/camera_info" to="/camera/rgb/camera_info"/> -->
+    <remap from="depth_registered/points" to="/pontos"/>
+  </node>
+
+
+  </group>
+  <!-- rremember to lower the quality of the png in the dynamic_reconfigure config for the compressedDepth. no idea how to do it automatically  -->
+</launch>

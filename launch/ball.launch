@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!--arg name="uri1" default="radio://0/80/2M/E7E7E7E7E7" / -->
+
+    <node name="ball_fiunder" pkg="my_pcl_tutorial" type="ball" output="screen">
+
+	<remap from="input" to="/pontos" />
+	<remap from="funny_point" to="/point_pos" />
+    </node>
+
+    <node name="better_marker" pkg="ping_pong_follower" type="pong_pong.py" output="screen">
+		<remap from="topic" to="/better_point" />
+		<remap from="pongo" to="/better_marker" />
+    </node>
+
+    <node name="top_marker" pkg="ping_pong_follower" type="pong_pong.py" output="screen">
+		<remap from="topic" to="/topo_point" />
+		<remap from="pongo" to="/topo_marker" />
+    </node>
+
+
+
+</launch>

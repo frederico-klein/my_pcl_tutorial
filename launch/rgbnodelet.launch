@@ -1,0 +1,25 @@
+<launch>
+  <arg name="depth" default="/camera/depth_registered/hw_registered/image_rect_raw"/>
+  <arg name="color" default="/camera/rgb/image_rect_color"/>
+
+  <node name="republishd" type="republish" pkg="image_transport" output="screen" args="compressedDepth in:=$(arg depth) raw out:=/hello/depth_registered/image_rect" />
+  <node name="republishc" type="republish" pkg="image_transport" output="screen" args="compressed in:=$(arg color) raw out:=/hello/rgb/image_rect_color" />
+
+  <group ns="hello">
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" />
+
+  <node pkg="nodelet" type="nodelet" name="nodelet1"
+        args="load depth_image_proc/point_cloud_xyzrgb nodelet_manager">
+    <!-- <remap from="depth_registered/image_rect" to="/doopo/image_raw"/> -->
+    <!-- <remap from="rgb/image_rect_color" to="/coopo/image_raw"/> -->
+    <!-- <remap from="/camera/depth_registered/camera_info" to="depth_registered/camera_info"/> -->
+    <!-- <remap from="/camera/rgb/camera_info" to="rgb/camera_info" /> -->
+    <remap from="depth_registered/camera_info" to="/camera/depth_registered/camera_info"/>
+    <remap from="rgb/camera_info" to="/camera/rgb/camera_info"/>
+    <remap from="depth_registered/points" to="/pontos"/>
+  </node>
+
+
+  </group>
+  <!-- rremember to lower the quality of the png in the dynamic_reconfigure config for the compressedDepth. no idea how to do it automatically  -->
+</launch>
